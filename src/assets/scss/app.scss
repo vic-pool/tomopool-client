@@ -1,0 +1,376 @@
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+.margin-auto {
+  margin: auto !important;
+}
+@media (min-width: 768px) {
+  .side-bar {
+    display: none;
+  }
+  .setting-dropdown {
+    color: #fff;
+  }
+  .staking-content {
+    margin-top: 0 !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .staking-content {
+    margin-top: -8rem !important;
+  }
+}
+@media (max-width: 1300px) {
+
+}
+
+
+@media (max-width: 575.98px) {
+
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) {
+  .side-bar {
+    display: block;
+  }
+  .setting-dropdown {
+    color: #000;
+  }
+  .tomopool {
+    display: none;
+  }
+  .staking-content {
+    margin-top: -9rem !important;
+  }
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {
+
+}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199.98px) {
+
+}
+
+table.dashboard-table {
+  th, td {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+
+.tomo-table {
+  width: 100%;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+
+  thead {
+    display: none;
+
+    th {
+      //font-weight: 400;
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      //text-align: center;
+
+      span {
+        display: block;
+        width: 100%;
+      }
+    }
+
+    tr {
+      color: #000;
+      transition: all .5s ease-in;
+      padding: 10px;
+      margin: 0 15px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      display: block;
+
+      tr {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      }
+    }
+
+  }
+
+  tbody {
+
+    tr {
+      display: block;
+      border-radius: 5px;
+      background-color: #fff;
+      box-shadow: 8px 8px 40px 0 rgba(0, 0, 0, .07);
+      padding: 10px;
+      margin: 0 15px 15px;
+      transition: all .3s ease-in;
+
+      @include media-breakpoint-up(lg) {
+        display: grid;
+        align-items: center;
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      }
+
+      //@include media-breakpoint-up(xl) {
+      //  padding-left: 30px;
+      //  padding-right: 30px;
+      //}
+    }
+    @include media-breakpoint-down(md) {
+      tr:first-child {
+        margin-top: 15px;
+      }
+    }
+    @include media-breakpoint-down(lg) {
+      tr:nth-child(2) {
+        margin-top: 15px;
+      }
+
+      tr:nth-child(odd) {
+        margin-right: 0 !important;
+      }
+    }
+    @include media-breakpoint-down(sm) {
+      tr:nth-child(odd) {
+        margin-right: 15px !important;
+      }
+      tr:nth-child(2) {
+        margin-top: 0;
+      }
+    }
+    @include media-breakpoint-up(lg) {
+      tr:nth-child(odd) {
+        margin-right: 15px !important;
+      }
+    }
+
+    @include media-breakpoint-up(sm) {
+      display: grid;
+      grid-template-columns: 100%;
+      //grid-column-gap: 15px;
+    }
+
+    @include media-breakpoint-up(md) {
+      grid-template-columns: 50% 50%;
+    }
+
+    @include media-breakpoint-up(lg) {
+      display: block;
+    }
+  }
+
+  td {
+    display: grid;
+    grid-template-columns: 30% auto;
+    grid-column-gap: 15px;
+    word-break: break-word;
+    hyphens: auto;
+    margin-bottom: 5px;
+
+    @include media-breakpoint-up(lg) {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+  }
+
+  td:before {
+    content: attr(data-label);
+    display: inline;
+    text-align: right;
+    font-weight: 600;
+    color: #000;
+
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    td.annual-interest:after {
+      content: attr(data-desc);
+      text-align: right;
+      font-size: 10px;
+    }
+  }
+
+  a {
+    color: #5e72e4;
+  }
+
+  small {
+    display: inline-block;
+    margin-left: 5px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .text-truncate {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 9rem;
+
+    @include media-breakpoint-only(sm) {
+      max-width: 12rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      max-width: 10rem;
+    }
+
+    @include media-breakpoint-up(xl) {
+      max-width: 12rem;
+    }
+
+    @include media-breakpoint-up(2xl) {
+      max-width: 15rem;
+    }
+  }
+
+  i[class*="tm-icon-"] {
+    line-height: 1.5;
+    font-size: 17px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.tomo-table--dashboard {
+  thead tr, tbody tr {
+    @include media-breakpoint-up(xl) {
+      grid-template-columns: 30% 12% 12% 10% 10% 20% 6%;
+    }
+    @include media-breakpoint-down(lg) {
+      grid-template-columns: 30% 10% 10% 10% 15% 20% 5%;
+    }
+
+  }
+}
+.tomo-table--staker {
+  thead tr, tbody tr {
+    @include media-breakpoint-up(xl) {
+      grid-template-columns: 60% 40%;
+    }
+    @include media-breakpoint-down(lg) {
+      grid-template-columns: 60% 40%;
+    }
+
+  }
+}
+.tomo-table--reward-candidate {
+  thead tr, tbody tr {
+    @include media-breakpoint-up(xl) {
+      grid-template-columns: 10% 20% 20% 20% 20% 10%;
+    }
+    @include media-breakpoint-down(lg) {
+      grid-template-columns: 10% 20% 20% 20% 20% 10%;
+    }
+
+  }
+}
+.tomo-table--withdraw-stake {
+  thead tr, tbody tr {
+    @include media-breakpoint-up(xl) {
+      grid-template-columns: 20% 15% 15% 20% 10% 10% 10%;
+    }
+    @include media-breakpoint-down(lg) {
+      grid-template-columns: 20% 15% 15% 20% 10% 10% 10%;
+    }
+
+  }
+}
+.tomo-table--transaction {
+  thead tr, tbody tr {
+    @include media-breakpoint-up(xl) {
+      grid-template-columns: 28% 27% 10% 10% 10% 15%;
+      //.account-address {
+      //  max-width: 15rem;
+      //}
+    }
+    @include media-breakpoint-between(md, xl) {
+      .account-address {
+        max-width: 13rem;
+      }
+    }
+    @include media-breakpoint-down(lg) {
+      grid-template-columns: 28% 27% 10% 10% 10% 15%;
+    }
+    @include media-breakpoint-up(xl) {
+      .account-address {
+        max-width: 17rem;
+      }
+    }
+
+  }
+}
+.tomo-table--staker-transaction {
+  thead tr, tbody tr {
+    @include media-breakpoint-up(xl) {
+      grid-template-columns: 40% 15% 15% 15% 15%;
+    }
+    @include media-breakpoint-between(md, xl) {
+      .account-address {
+        max-width: 13rem;
+      }
+    }
+    @include media-breakpoint-down(lg) {
+      grid-template-columns: 40% 15% 15% 15% 15%;
+    }
+    @include media-breakpoint-up(xl) {
+      .account-address {
+        max-width: 17rem;
+      }
+    }
+
+  }
+}
+.account-address {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 20rem;
+  display: inline-block;
+  vertical-align: middle;
+  @include media-breakpoint-down(lg) {
+    max-width: 15rem;
+  }
+}
+.mw-50 {
+  max-width: 50px;
+}
+.card-body-no-padding {
+  padding: 0 !important;
+}
+
+.btn-sq-lg {
+  width: 150px !important;
+  height: 150px !important;
+}
+@include media-breakpoint-down(sm) {
+  .account-balance {
+    color: #28D185;
+  }
+  .btn-responsive {
+    font-size: .75rem;
+    padding: .25rem .5rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+  }
+}
+@include media-breakpoint-up(md) {
+  .account-balance {
+    color: #fff;
+  }
+}
+
+.bg-gradient-purple {
+  background-image: linear-gradient(#563d7c, #6f5499);
+}
