@@ -1,9 +1,8 @@
 <template>
-    <div class="mt--7">
-
+    <div class="container mt--8 pb-5 staking-content">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-7">
-                <div class="card bg-secondary shadow border-0">
+                <div class="card shadow border-0">
                     <div class="card-header bg-transparent pb-2">
                         <h3 class="text-muted mb-2">
                             <i class="fa  fa-check-circle text-warning" aria-hidden="true"></i> Success

@@ -1,10 +1,9 @@
 <template>
-
-  <div class="footer text-center">
-    <a href="https://t.me/coin98pool" class="icon ml-3" target="_blank">
+  <div class="footer text-center mt-3">
+    <a :href="telegram" class="icon ml-3" target="_blank">
       <img src="@/assets/logo/telegram-logo.svg" alt="github" height="35px">
     </a>
-    <a href="https://twitter.com/coin98_net" class="icon ml-3" target="_blank">
+    <a :href="twitter" class="icon ml-3" target="_blank">
       <img src="@/assets/logo/twitter-logo.svg" alt="github" height="35px">
     </a>
     <a href="https://github.com/tomo-pool/tomo-pool" class="icon ml-3" target="_blank">
@@ -23,6 +22,8 @@ export default {
   data() {
     return {
       candidate: process.env.VUE_APP_CANDIDATE_ADDRESS,
+      telegram: process.env.VUE_APP_TELEGRAM,
+      twitter: process.env.VUE_APP_TWITTER,
       year: new Date().getFullYear()
     };
   }

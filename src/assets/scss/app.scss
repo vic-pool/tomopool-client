@@ -1,5 +1,6 @@
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/bootstrap-vue/src/index.scss';
+$gray: #6c757d;
 .margin-auto {
   margin: auto !important;
 }
@@ -15,20 +16,6 @@
   }
 }
 
-@media (min-width: 992px) {
-  .staking-content {
-    margin-top: -8rem !important;
-  }
-}
-@media (max-width: 1300px) {
-
-}
-
-
-@media (max-width: 575.98px) {
-
-}
-
 // Small devices (landscape phones, less than 768px)
 @media (max-width: 767.98px) {
   .side-bar {
@@ -39,9 +26,6 @@
   }
   .tomopool {
     display: none;
-  }
-  .staking-content {
-    margin-top: -9rem !important;
   }
 }
 
@@ -355,22 +339,48 @@ table.dashboard-table {
   height: 150px !important;
 }
 @include media-breakpoint-down(sm) {
-  .account-balance {
-    color: #28D185;
+  .tabs .nav-item > .nav-link {
+    padding: 0.5rem 0.75rem !important;
   }
-  .btn-responsive {
-    font-size: .75rem;
-    padding: .25rem .5rem;
-    line-height: 1.5;
-    border-radius: .25rem;
+  .stats {
+    width: 50%;
+    float: left;
+  }
+  .stats:nth-child(odd) {
+    padding-left: 15px !important;
+    padding-right: 0;
   }
 }
-@include media-breakpoint-up(md) {
-  .account-balance {
-    color: #fff;
-  }
+.account-balance {
+  color: #fff;
 }
 
 .bg-gradient-purple {
   background-image: linear-gradient(#563d7c, #6f5499);
+}
+
+.bg-purple {
+  background-image: linear-gradient(#563d7c, #6f5499);
+}
+.border-purple {
+  border-color: $purple !important;
+}
+.color-purple {
+  color: $purple;
+}
+.color-gray {
+  color: $gray;
+}
+.card .tabs .card-body {
+  padding: 0 !important;
+}
+.mr-1px {
+  margin-right: 1px;
+}
+nav.navbar li {
+  list-style: none;
+}
+
+nav.navbar li > a {
+  color: #fff;
 }

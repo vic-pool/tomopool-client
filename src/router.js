@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import DashboardLayout from '@/layout/DashboardLayout'
-import StakeLayout from '@/layout/StakeLayout'
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,7 +32,7 @@ const routes = [
     {
         path: '/',
         redirect: 'staking',
-        component: StakeLayout,
+        component: DashboardLayout,
         children: [
             {
                 path: '/staking/:address',

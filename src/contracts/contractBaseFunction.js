@@ -193,13 +193,16 @@ export default {
     let candidate = await new web3.eth.Contract(CandidateABI, _candidate)
     return await candidate.methods.isVoted(store.address).call()
   },
-  checkProblem: async function(_candidate) {
+  checkHasProblem: async function(_candidate) {
     let candidate = await new web3.eth.Contract(CandidateABI, _candidate)
     let currentEpoch = await candidate.methods.currentEpoch().call()
     let lastWithdrawEpoch = await candidate.methods.getLastWithdrawEpochOfStaker(store.address).call()
 
-    console.log('current', currentEpoch)
-    console.log('lastWithdrawEpoch', lastWithdrawEpoch)
+    console.log('duration', currentEpoch - lastWithdrawEpoch)
+    if (currentEpoch - lastWithdrawEpoch > 1000) {
+      return true
+    }
+    return false
   },
 
   propose: async function (_candidate) {

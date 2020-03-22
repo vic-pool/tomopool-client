@@ -1,12 +1,12 @@
 <template>
-    <div class="mt--7">
+    <div class="container mt--8 pb-5 staking-content">
 
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-7">
-                <div class="card bg-secondary shadow border-0">
+                <div class="card shadow border-0">
                     <div class="card-header bg-transparent pb-2">
                         <h3 class="text-muted mb-2">
-                            <i class="fas fa-sign-out-alt text-warning" aria-hidden="true"></i> Stake Transfer
+                            <b-icon icon="box-arrow-right" variant="danger"></b-icon> Transfer Stake
                         </h3>
                     </div>
                     <div class="card-body px-lg-4 py-lg-4">
@@ -32,28 +32,28 @@
                                 Your Staking: {{formatNumber(candidateStaker.capacity || 0)}} TOMO
                             </div>
                             <div class="form-group">
-                                <base-alert type="danger">
+                                <b-alert show variant="danger">
                                     Please make sure that you know owner or private key of this address! DO NOT use exchange address or TomoPool contract!
-                                </base-alert>
+                                </b-alert>
                             </div>
-                            <base-input
-                                    class="input-group-alternative mb-3"
-                                    placeholder="Receiver Address"
-                                    addon-left-icon="fas fa-vote-yea text-primary"
-                                    type="string"
-                                    v-model="to">
-                            </base-input>
-                            <base-input
+                            <b-form-input
+                                class="input-group-alternative mb-3"
+                                placeholder="Receiver Address"
+                                addon-left-icon="fas fa-vote-yea text-primary"
+                                type="text"
+                                v-model="to">
+                            </b-form-input>
+                            <b-form-input
                                 class="input-group-alternative mb-3"
                                 placeholder="Amount"
                                 addon-left-icon="fas fa-coins text-primary"
                                 type="number"
                                 min="0"
                                 v-model="amount">
-                            </base-input>
+                            </b-form-input>
                             <div class="text-center">
-                                <base-button type="danger" class="my-2" @click="transferStake">Transfer</base-button>
-                                <router-link to="/" class="btn btn-secondary">
+                                <b-button variant="danger" class="mr-2" @click="transferStake">Transfer</b-button>
+                                <router-link to="/" class="btn btn-outline-primary">
                                     Back
                                 </router-link>
                             </div>

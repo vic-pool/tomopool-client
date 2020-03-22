@@ -151,10 +151,13 @@
   import Vue from 'vue'
   import VueClipboard from 'vue-clipboard2'
   import axios from 'axios'
+  import BaseHeader from '@/components/BaseHeader'
+  import NewTable from '@/components/NewTable'
+  import BasePagination from '@/components/BasePagination'
 
   Vue.use(VueClipboard)
   export default {
-    components: {},
+    components: {BaseHeader, NewTable, BasePagination},
     data() {
       return {
         address: this.$route.params.address.toLowerCase(),

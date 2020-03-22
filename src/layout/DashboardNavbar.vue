@@ -1,29 +1,29 @@
 <template>
-    <div>
-        <b-navbar toggleable="lg" type="dark" variant="info">
-            <b-navbar-brand href="#">TomoPool</b-navbar-brand>
+    <b-navbar toggleable="lg" type="dark" variant="purple">
 
-            <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <router-link class="navbar-brand" to="/">
+            <img src="@/assets/img/tomopool-white.png" class="navbar-brand-img" height="36px">
+        </router-link>
 
-            <b-collapse id="nav-collapse" is-nav v-if="store.address !== ''">
-                <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto" right>
-                    <div class="float-left account-balance">
-                        <small>Your Balance</small><br/>
-                        <span class="font-weight-800">{{formatNumber(store.balance)}} </span><small class="font-weight-300">TOMO</small>
-                    </div>
-                    <b-nav-item-dropdown right>
-                        <!-- Using 'button-content' slot -->
-                        <template v-slot:button-content>
-                            <img src="https://placekitten.com/g/30/30" alt="Kitten">
-                        </template>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-                    </b-nav-item-dropdown>
-                </b-navbar-nav>
-            </b-collapse>
-        </b-navbar>
-    </div>
+        <div v-if="store.address !== ''"class="ml-auto">
+            <div class="float-left account-balance">
+                <small>Your Balance</small>
+                <br><span class="font-weight-800">{{formatNumber(store.balance)}}</span>
+                <small class="font-weight-300"> TOMO</small>
+            </div>
+            <div class="float-right">
+                <b-nav-item-dropdown right>
+                    <!-- Using 'button-content' slot -->
+                    <template  v-slot:button-content>
+                        <img src="@/assets/img/avatar-08-512.png" height="36px">
+                    </template>
+                    <router-link to="/profile" class="dropdown-item">
+                        <span>Profile</span>
+                    </router-link>
+                </b-nav-item-dropdown>
+            </div>
+        </div>
+    </b-navbar>
 </template>
 <script>
 import store from '@/store'

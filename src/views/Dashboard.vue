@@ -1,23 +1,61 @@
 <template>
     <div>
-        <base-header type="gradient-success" class="pt-5 pt-md-8">
+        <base-header type="gradient-success" class="color-gray">
             <!-- Card stats -->
-            <stats></stats>
+            <div class="row">
+                <div class="stats col-sm-6 col-md-6 col-xl-3 col-lg-3 mb-2 mb-sm-4 mb-md-4 mb-xl-0 mb-lg-0">
+                    <div class="list-group-item border-purple text-center h-100 py-3">
+                        <p class="highlight-label">My Stake</p>
+                        <p class="h3 font-w4 mb-3">
+                            <span class="color-purple"> {{formatNumber(candidateStaker.capacity)}}</span>
+                            <span class="m-0 h6 highlight-sub"> TOMO</span>
+                        </p>
+                        <p class="m-0 small font-w5"><a href="#" @click="stake">Stake More</a></p>
+                    </div>
+                </div>
+                <div class="stats col-sm-6 col-md-6 col-xl-3 col-lg-3 mb-2 mb-sm-4 mb-md-4 mb-xl-0 mb-lg-0">
+                    <div class="list-group-item border-purple text-center h-100 py-3">
+                        <p class="highlight-label">My Rewards</p>
+                        <p class="h3 font-w4 mb-3">
+                            <span class="color-purple"> {{formatNumber(Math.round(stakerReward * 1000) / 1000)}}</span>
+                            <span class="m-0 h6 highlight-sub"> TOMO</span>
+                        </p>
+                        <p class="m-0 small font-w5"><a href="#" @click="withdrawRewards">Withdraw</a></p>
+                    </div>
+                    </div>
+                <div class="stats col-sm-6 col-md-6 col-xl-3 col-lg-3 mb-2 mb-sm-4 mb-md-0 mb-xl-0 mb-lg-0">
+                    <div class="list-group-item border-purple text-center h-100 py-3">
+                        <p class="highlight-label">Total Staker</p>
+                        <p class="h3 font-w4 mb-3">
+                            <span class="color-purple"> {{formatNumber(100)}}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="stats col-sm-6 col-md-6 col-xl-3 col-lg-3 mb-2 mb-sm-4 mb-md-0 mb-xl-0 mb-lg-0">
+                    <div class="list-group-item border-purple text-center h-100 py-3">
+                        <p class="highlight-label">ROI</p>
+                        <p class="h3 font-w4 mb-3">
+                            <span class="color-purple"> 8%</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </base-header>
-        <base-header type="gradient-success" class="pb-6 pb-8 pt-5">
+
+        <base-header type="gradient-success" class="pt-3 pt-md-3 pt-sm-3 pt-xl-5 pt-lg-5">
             <div class="row">
                 <div class="col">
                     <div class="card shadow">
                         <div class="card-header bg-transparent">
                             <div class="col">
-                                <h3 class="mb-0">
+                                <h5 class="mb-0">
                                     <i class="fa fa-user text-warning" aria-hidden="true"></i> Candidate detail
-                                </h3>
+                                </h5>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div>Candidate:
                                         <a :href="tomoscan + '/address/' + candidate.hash" target="_blank">
                                             {{candidate.hash}}
@@ -28,42 +66,24 @@
                                             {{candidate.coinbase}}
                                         </a>
                                      </div>
-                                    <div>Capacity: {{ formatNumber(candidate.capacity) }} TOMO</div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div>
-                                        <span>You voted: {{ formatNumber(candidateStaker.capacity) }} TOMO</span>
-                                    </div>
-                                    <div>
-                                        <span>Your current reward: {{ formatNumber(stakerReward) }} TOMO </span>
-                                        <span style="cursor: pointer; text-transform: capitalize !important;"
-                                              class="badge text-uppercase badge-primary" @click="reCalculate">Re-Calculate rewards</span>
-                                    </div>
+                                    <div>Capacity: {{ formatNumber(candidate.capacity) }} / {{formatNumber(maxCap)}} TOMO</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mt-3">
+            <div class="row mt-3 mb-3">
                 <div class="col-12">
-                    <div class="text-right">
-                        <base-button type="default" class="btn-responsive" @click="withdrawRewards" v-if="store.address && stakerReward > 0">Withdraw Rewards</base-button>
-                        <base-button type="primary" class="btn-responsive" @click="stake">Stake</base-button>
-                        <base-button
-                            type="warning"
-                            class="btn-responsive"
-                            @click="unstake"
-                            v-if="store.address && candidateStaker && candidateStaker.capacity > 0">UnStake</base-button>
-                        <base-button
-                            v-if="candidate.status === 'PENDING' && candidate.capacity >= 200000"
-                            type="warning"
-                            class="btn-responsive"
-                            @click="propose(candidate.hash)">Propose</base-button>
-                        <base-dropdown position="right" v-if="store.address && candidateStaker && candidateStaker.capacity > 0 && candidate.status !== 'PENDING'">
-                            <base-button slot="title" type="secondary" class="dropdown-toggle btn-responsive">
-                                Other
-                            </base-button>
+                    <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+                        <b-button variant="primary" class="btn-responsive mx-1 ml-auto" @click="stake">Stake</b-button>
+                        <b-button variant="danger" class="btn-responsive mx-1" @click="unstake"
+                                  v-if="store.address && candidateStaker && candidateStaker.capacity > 0">Unstake</b-button>
+                        <b-button v-if="candidate.status === 'PENDING' && candidate.capacity >= 200000"
+                                variant="warning" class="btn-responsive mx-1"
+                                @click="propose(candidate.hash)">Propose</b-button>
+
+                        <b-dropdown class="mx-1 btn-responsive" right text="Other " v-if="store.address && candidateStaker && candidateStaker.capacity > 0 && candidate.status !== 'PENDING'">
                             <router-link :to="'/transferStake/' + candidate.hash" class="dropdown-item" v-if="candidateStaker.capacity > 0">
                                 Transfer Stake
                             </router-link>
@@ -74,9 +94,8 @@
                                 UnVote Resign
                             </router-link>
                             <a class="dropdown-item" @click="resign" v-if="canResign">Resign</a>
-                        </base-dropdown>
-
-                    </div>
+                        </b-dropdown>
+                    </b-button-toolbar>
 
                 </div>
             </div>
@@ -85,150 +104,125 @@
         <div class="container-fluid mt--7">
             <div class="row">
                 <div class="col">
-                    <div class="card shadow">
-                        <div class="card-header bg-transparent">
-                            <h3 class="mb-0">
-                                <i class="fa fa-trophy text-warning" aria-hidden="true"></i> Rewards
-                            </h3>
-                        </div>
-                        <div class="card-body card-body-no-padding">
-                            <div class="table-responsive">
-                                <new-table
-                                    :fields="rewardFields"
-                                    :items="rewardData"
-                                    class="tomo-table tomo-table--reward">
-                                    <template
-                                        slot="annualInterest"
-                                        slot-scope="props">
-                                        <div>
-                                            <span>{{(Math.ceil((props.item.totalReward * 48 * 30 * 12) / props.item.totalCapacity * 100 * 100)) / 100 }}% </span>
-                                            <small>({{formatNumber((Math.ceil((props.item.totalReward * 48 * 30 * 12) * 100 )) / 100) }} TOMO)</small>
-                                        </div>
 
-                                    </template>
-                                    <template
-                                        slot="totalCapacity"
-                                        slot-scope="props">
-                                        {{formatNumber(props.item.totalCapacity)}}
-                                    </template>
-                                    <template
-                                        slot="rewardTime"
-                                        slot-scope="props"
-                                        :title="props.item.rewardTime">
-                                        {{formatAge(props.item.rewardTime)}}
-                                    </template>
-                                </new-table>
-                            </div>
-                            <div class="mt-3">
-                                <base-pagination
-                                    v-if="rewardTotal > 0 && rewardTotal > limit"
-                                    v-model="rewardCurrentPage"
-                                    :page-count="Math.ceil(rewardTotal/limit)"
-                                    @change="getCandidateRewards"></base-pagination>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    <b-card no-body>
+                        <b-tabs card>
+                            <b-tab title="Stakers" active>
+                                <div class="table-responsive">
+                                    <new-table
+                                            :fields="stakerFields"
+                                            :items="stakersData"
+                                            class="tomo-table tomo-table--staker">
+                                        <template
+                                                slot="staker"
+                                                slot-scope="props">
+                                            <router-link :to="'/staker/' + props.item.staker" class="account-address">
+                                                {{props.item.staker}}
+                                            </router-link>
+                                        </template>
 
-            <div class="row mt-5">
-                <div class="col">
-                    <div class="card shadow">
-                        <div class="card-header bg-transparent">
-                            <h3 class="mb-0">
-                                <i class="fa fa-star text-warning" aria-hidden="true"></i> Stakers
-                            </h3>
-                        </div>
-                        <div class="card-body card-body-no-padding">
-                            <div class="table-responsive">
-                                <new-table
-                                    :fields="stakerFields"
-                                    :items="stakersData"
-                                    class="tomo-table tomo-table--staker">
-                                    <template
-                                        slot="staker"
-                                        slot-scope="props">
-                                        <router-link :to="'/staker/' + props.item.staker" class="account-address">
-                                            {{props.item.staker}}
-                                        </router-link>
-                                    </template>
+                                        <template
+                                                slot="capacity"
+                                                slot-scope="props">
+                                            {{formatNumber(props.item.capacity)}}
+                                        </template>
+                                    </new-table>
+                                </div>
+                                <div class="mt-3">
+                                    <base-pagination
+                                            v-if="stakerTotal > 0 && stakerTotal > limit"
+                                            v-model="stakerCurrentPage"
+                                            :page-count="Math.ceil(stakerTotal/limit)"
+                                            @change="getStakers"></base-pagination>
+                                </div>
+                            </b-tab>
+                            <b-tab title="Rewards">
+                                <div class="table-responsive">
+                                    <new-table
+                                            :fields="rewardFields"
+                                            :items="rewardData"
+                                            class="tomo-table tomo-table--reward">
+                                        <template
+                                                slot="annualInterest"
+                                                slot-scope="props">
+                                            <div>
+                                                <span>{{(Math.ceil((props.item.totalReward * 48 * 30 * 12) / props.item.totalCapacity * 100 * 100)) / 100 }}% </span>
+                                                <small>({{formatNumber((Math.ceil((props.item.totalReward * 48 * 30 * 12) * 100 )) / 100) }} TOMO)</small>
+                                            </div>
 
-                                    <template
-                                        slot="capacity"
-                                        slot-scope="props">
-                                        {{formatNumber(props.item.capacity)}}
-                                    </template>
-                                </new-table>
-                            </div>
-                            <div class="mt-3">
-                                <base-pagination
-                                    v-if="stakerTotal > 0 && stakerTotal > limit"
-                                    v-model="stakerCurrentPage"
-                                    :page-count="Math.ceil(stakerTotal/limit)"
-                                    @change="getStakers"></base-pagination>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                        </template>
+                                        <template
+                                                slot="totalCapacity"
+                                                slot-scope="props">
+                                            {{formatNumber(props.item.totalCapacity)}}
+                                        </template>
+                                        <template
+                                                slot="rewardTime"
+                                                slot-scope="props"
+                                                :title="props.item.rewardTime">
+                                            {{formatAge(props.item.rewardTime)}}
+                                        </template>
+                                    </new-table>
+                                </div>
+                                <div class="mt-3">
+                                    <base-pagination
+                                            v-if="rewardTotal > 0 && rewardTotal > limit"
+                                            v-model="rewardCurrentPage"
+                                            :page-count="Math.ceil(rewardTotal/limit)"
+                                            @change="getCandidateRewards"></base-pagination>
+                                </div>
+                            </b-tab>
+                            <b-tab title="Transactions">
+                                <div class="table-responsive">
+                                    <new-table
+                                            :fields="transactionFields"
+                                            :items="transactionsData"
+                                            class="tomo-table tomo-table--transaction">
+                                        <template
+                                                slot="hash"
+                                                slot-scope="props">
+                                            <div class="account-address">
+                                                <a :href="tomoscan + '/tx/' + props.item.hash" target="_blank">
+                                                    {{props.item.hash}}
+                                                </a>
+                                            </div>
+                                        </template>
+                                        <template
+                                                slot="staker" class="account-address"
+                                                slot-scope="props">
+                                            <router-link :to="'/staker/' + props.item.staker" class="account-address">
+                                                {{props.item.staker}}
+                                            </router-link>
+                                        </template>
 
-            <div class="row mt-5">
-                <div class="col">
-                    <div class="card shadow">
-                        <div class="card-header bg-transparent">
-                            <h3 class="mb-0">
-                                <i class="fa fa-history text-warning" aria-hidden="true"></i> Transactions
-                            </h3>
-                        </div>
-                        <div class="card-body card-body-no-padding">
-                            <div class="table-responsive">
-                                <new-table
-                                    :fields="transactionFields"
-                                    :items="transactionsData"
-                                    class="tomo-table tomo-table--transaction">
-                                    <template
-                                        slot="hash"
-                                        slot-scope="props">
-                                        <div class="account-address">
-                                            <a :href="tomoscan + '/tx/' + props.item.hash" target="_blank">
-                                                {{props.item.hash}}
-                                            </a>
-                                        </div>
-                                    </template>
-                                    <template
-                                        slot="staker" class="account-address"
-                                        slot-scope="props">
-                                        <router-link :to="'/staker/' + props.item.staker" class="account-address">
-                                            {{props.item.staker}}
-                                        </router-link>
-                                    </template>
+                                        <template
+                                                slot="capacity"
+                                                slot-scope="props">
+                                            {{formatNumber(props.item.capacity)}}
+                                        </template>
+                                        <template
+                                                slot="blockNumber"
+                                                slot-scope="props">
+                                            {{formatNumber(props.item.blockNumber)}}
+                                        </template>
+                                        <template
+                                                slot="createdAt"
+                                                slot-scope="props">
+                                            {{formatAge(props.item.createdAt)}}
+                                        </template>
+                                    </new-table>
+                                </div>
+                                <div class="mt-3">
+                                    <base-pagination
+                                            v-if="transactionTotal > 0 && transactionTotal > limit"
+                                            v-model="transactionCurrentPage"
+                                            :page-count="Math.ceil(transactionTotal/limit)"
+                                            @change="getTransactions"></base-pagination>
+                                </div>
+                            </b-tab>
+                        </b-tabs>
+                    </b-card>
 
-                                    <template
-                                            slot="capacity"
-                                            slot-scope="props">
-                                        {{formatNumber(props.item.capacity)}}
-                                    </template>
-                                    <template
-                                            slot="blockNumber"
-                                            slot-scope="props">
-                                        {{formatNumber(props.item.blockNumber)}}
-                                    </template>
-                                    <template
-                                        slot="createdAt"
-                                        slot-scope="props">
-                                        {{formatAge(props.item.createdAt)}}
-                                    </template>
-                                </new-table>
-                            </div>
-                            <div class="mt-3">
-                                <base-pagination
-                                    v-if="transactionTotal > 0 && transactionTotal > limit"
-                                    v-model="transactionCurrentPage"
-                                    :page-count="Math.ceil(transactionTotal/limit)"
-                                    @change="getTransactions"></base-pagination>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -244,7 +238,6 @@
   import NewTable from '@/components/NewTable'
   import BaseDropdown from '@/components/BaseDropdown'
   import BaseHeader from '@/components/BaseHeader'
-  import Stats from '@/components/Stats'
   import BasePagination from '@/components/BasePagination'
   import BaseButton from '@/components/BaseButton'
 
@@ -254,7 +247,6 @@
         NewTable,
         BaseDropdown,
         BaseHeader,
-        Stats,
         BasePagination,
         BaseButton,
     },
@@ -308,7 +300,8 @@
 
         tomoscan: process.env.VUE_APP_TOMOSCAN,
         tomomaster: process.env.VUE_APP_TOMOMASTER,
-        apiServer: process.env.VUE_APP_API
+        apiServer: process.env.VUE_APP_API,
+        maxCap: process.env.VUE_APP_MAX_CAPACITY
       }
     },
     methods: {

@@ -20,17 +20,24 @@
                                         {{store.address}}
                                     </router-link>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-sm-4">
                                     <i class="fas fa-balance-scale text-primary"></i>
                                     Your Balance: {{formatNumber(store.balance)}} TOMO
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-sm-4">
                                     <i class="fas fa-vote-yea text-primary"></i>
                                     Total Staking: {{candidateStaker ? formatNumber(candidateStaker.capacity) : 0}} TOMO
                                 </div>
-                                <div class="col-lg-6">
-                                    <i class="fas fa-balance-scale text-primary"></i>
-                                    Total Reward: {{candidateStaker ? formatNumber(candidateStaker.totalReward) : 0}} TOMO
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <span>Last day: {{formatTomo(candidatesStaker ? candidatesStaker.dailyReward : 0)}} TOMO</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span>Last 7 days: {{formatTomo(candidatesStaker ? candidatesStaker.weeklyReward : 0)}} TOMO</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span>Last 30 days: {{formatTomo(candidatesStaker ? candidatesStaker.monthlyReward : 0)}} TOMO</span>
                                 </div>
                             </div>
                         </div>
@@ -127,12 +134,16 @@
   import store from '@/store'
   import contract from '@/contracts/contractBaseFunction'
   import VueCountdown from '@chenfengyuan/vue-countdown'
+  import BaseHeader from '@/components/BaseHeader'
+  import NewTable from '@/components/NewTable'
 
 
   Vue.use(VueClipboard)
   export default {
     components: {
-      VueCountdown
+      VueCountdown,
+      BaseHeader,
+      NewTable
     },
     data() {
       return {
@@ -155,6 +166,7 @@
         },
         withdrawTotal: 0,
         withdrawCurrentPage: 1,
+        candidatesStaker: {},
 
         store: store,
         contract: contract,
@@ -180,10 +192,15 @@
 
       withdrawStake(candidate, blockWithdraw) {
         this.contract.withdrawStake(candidate, blockWithdraw)
-      }
+      },
+      async getCandidateStaker() {
+        let request = await axios.get(this.apiServer + `/api/candidates/${this.candidateAddress}/staker/${this.store.address}`)
+        this.candidatesStaker = request.data
+      },
     },
-    async mounted() {
+    async created() {
       await this.getListWithdraw()
+      await this.getCandidateStaker()
     }
   };
 </script>

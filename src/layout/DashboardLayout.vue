@@ -1,21 +1,17 @@
 <template>
   <div class="wrapper">
-    <div class="side-bar">
-    </div>
     <div class="main-content" :data="sidebarBackground">
       <dashboard-navbar></dashboard-navbar>
-      <div>
-        <fade-transition :duration="200" origin="center top" mode="out-in">
+      <div class="pt-3 pt-md-3 pt-sm-3 pt-xl-5 pt-lg-5">
           <!-- your content here -->
           <router-view></router-view>
-        </fade-transition>
         <content-footer v-if="!$route.meta.hideFooter"></content-footer>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import ContentFooter from './ContentFooter.vue';
+  import ContentFooter from './ContentFooter.vue'
   import { FadeTransition } from 'vue2-transitions'
   import DashboardNavbar from './DashboardNavbar'
 
