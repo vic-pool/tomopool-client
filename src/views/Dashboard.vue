@@ -236,19 +236,15 @@
   import contract from '@/contracts/contractBaseFunction'
   import store from '@/store'
   import NewTable from '@/components/NewTable'
-  import BaseDropdown from '@/components/BaseDropdown'
   import BaseHeader from '@/components/BaseHeader'
   import BasePagination from '@/components/BasePagination'
-  import BaseButton from '@/components/BaseButton'
 
   Vue.use(VueClipboard)
   export default {
     components: {
         NewTable,
-        BaseDropdown,
         BaseHeader,
         BasePagination,
-        BaseButton,
     },
     data() {
       return {

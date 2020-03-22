@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <link rel="icon" :href="'/' + favicon">
+    <title>{{title}}</title>
     <router-view/>
   </div>
 </template>
@@ -11,7 +13,9 @@
     name: 'app',
     data() {
       return {
-        store: store
+        store: store,
+        title: process.env.VUE_APP_POOL_NAME,
+        favicon: process.env.VUE_APP_FAVICON
       }
     },
     async created() {

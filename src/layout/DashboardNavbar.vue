@@ -2,7 +2,7 @@
     <b-navbar toggleable="lg" type="dark" variant="purple">
 
         <router-link class="navbar-brand" to="/">
-            <img src="@/assets/img/tomopool-white.png" class="navbar-brand-img" height="36px">
+            <img :src="'/' + navbarUrl" class="navbar-brand-img" height="36px">
         </router-link>
 
         <div v-if="store.address !== ''"class="ml-auto">
@@ -30,7 +30,8 @@ import store from '@/store'
   export default {
       data() {
           return {
-              store: store
+              store: store,
+              navbarUrl: process.env.VUE_APP_NAVBAR_IMAGE
           }
       }
   };
