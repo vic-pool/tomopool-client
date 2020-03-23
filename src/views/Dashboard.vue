@@ -27,7 +27,7 @@
                     <div class="list-group-item border-purple text-center h-100 py-3">
                         <p class="highlight-label">Total Staker</p>
                         <p class="h3 font-w4 mb-3">
-                            <span class="color-purple"> {{formatNumber(100)}}</span>
+                            <span class="color-purple"> {{formatNumber(stats.totalStaker)}}</span>
                         </p>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                     <div class="list-group-item border-purple text-center h-100 py-3">
                         <p class="highlight-label">ROI</p>
                         <p class="h3 font-w4 mb-3">
-                            <span class="color-purple"> 8%</span>
+                            <span class="color-purple">{{stats.stakingROI}}%</span>
                         </p>
                     </div>
                 </div>
@@ -293,6 +293,7 @@
         candidateStatus: 0,
         withdrawLock2days: false,
         withdrawLock30days: false,
+        stats: {},
 
         tomoscan: process.env.VUE_APP_TOMOSCAN,
         tomomaster: process.env.VUE_APP_TOMOMASTER,
@@ -390,6 +391,10 @@
           this.candidateStaker = request.data
         }
 
+      },
+      async getStats() {
+        let request = await axios.get(this.apiServer + '/api/config/stats/' + process.env.VUE_APP_CANDIDATE_ADDRESS)
+        this.stats = request.data
       },
       async getCandidateStakers() {
         let params = {
