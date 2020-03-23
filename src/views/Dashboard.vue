@@ -413,6 +413,7 @@
       await this.currentStakerReward()
     },
     async created() {
+      await this.getStats()
       await this.getCandidateDetail()
       await this.getCandidateStaker()
       await this.currentStakerReward()
