@@ -196,13 +196,18 @@ export default {
   checkHasProblem: async function(_candidate) {
     let candidate = await new web3.eth.Contract(CandidateABI, _candidate)
     let currentEpoch = await candidate.methods.currentEpoch().call()
-    let lastWithdrawEpoch = await candidate.methods.getLastWithdrawEpochOfStaker(store.address).call()
+    try {
+      let lastWithdrawEpoch = await candidate.methods.getLastWithdrawEpochOfStaker(store.address).call()
 
-    console.log('duration', currentEpoch - lastWithdrawEpoch)
-    if (currentEpoch - lastWithdrawEpoch > 1000) {
-      return true
+      console.log('duration', currentEpoch - lastWithdrawEpoch)
+      if (currentEpoch - lastWithdrawEpoch > 1000) {
+        return true
+      }
+      return false
+    } catch (e) {
+      return false
     }
-    return false
+
   },
 
   propose: async function (_candidate) {
@@ -259,11 +264,16 @@ export default {
 
   computeReward: async function (_candidate) {
     let candidate = new web3.eth.Contract(CandidateABI, _candidate)
-    let reward = await candidate.methods.computeTotalStakerReward(store.address).call()
-    if (reward) {
-      reward = new BigNumber(reward)
-      return reward.div(10 ** 18).toNumber()
+    try {
+      let reward = await candidate.methods.computeTotalStakerReward(store.address).call()
+      if (reward) {
+        reward = new BigNumber(reward)
+        return reward.div(10 ** 18).toNumber()
+      }
+    } catch (e) {
+      return 0
     }
+
     return 0
   },
 
