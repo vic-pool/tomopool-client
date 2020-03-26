@@ -74,6 +74,22 @@ function loginViaTomoWallet() {
   });
 }
 
+function loginViaOtherBrowser() {
+  web3 = window.web3
+  window.web3.eth.getAccounts(async function (err, accounts) {
+    store.wallet = 'tomowallet';
+    store.address = accounts[0];
+    await store.updateBalance(store.address)
+  });
+
+  window.web3.version.getNetwork((err, netId) => {
+    store.networkId = netId;
+    if (netId !== process.env.VUE_APP_NETWORK_ID) {
+      alert('Unknown network, change network to TomoChain, please');
+    }
+  });
+}
+
 export default {
   login: function (data, cb) {
     if (data.privateKey) {
@@ -87,6 +103,8 @@ export default {
     }
     else if (data.trustwallet) {
       loginViaMetamask();
+    } else if (data.other) {
+      loginViaOtherBrowser()
     }
   },
   stake: async function (_candidate, _amount) {

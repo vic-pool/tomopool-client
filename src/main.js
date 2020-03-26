@@ -63,32 +63,41 @@ Vue.prototype.formatTomo = function (num) {
   return Math.floor(num * 1000) / 1000
 }
 Vue.prototype.walletLogin = function () {
-  if (window.web3 && window.web3.currentProvider) {
-    if (window.web3.currentProvider.isTomoWallet) {
+  if (window.web3) {
+    if (window.web3.currentProvider) {
+      if (window.web3.currentProvider.isTomoWallet) {
+        contract.login({
+          tomowallet: true
+        }, async (err, address) => {
+          store.address = address;
+          await store.updateBalance(address)
+        });
+      }
+      else if (window.web3.currentProvider.isTrust) {
+        contract.login({
+          trustwallet: true
+        }, async (err, address) => {
+          store.address = address;
+          await store.updateBalance(address)
+        });
+      }
+      else if (window.web3.currentProvider.isMetaMask) {
+        contract.login({
+          metamask: true
+        }, async (err, address) => {
+          store.address = address;
+          await store.updateBalance(address)
+        });
+      }
+    } else {
       contract.login({
-        tomowallet: true
+        other: true
       }, async (err, address) => {
         store.address = address;
         await store.updateBalance(address)
       });
     }
-    else if (window.web3.currentProvider.isTrust) {
-      contract.login({
-        trustwallet: true
-      }, async (err, address) => {
-        store.address = address;
-        await store.updateBalance(address)
-      });
-    }
-    else if (window.web3.currentProvider.isMetaMask) {
-      contract.login({
-        metamask: true
-      }, async (err, address) => {
-        store.address = address;
-        await store.updateBalance(address)
-      });
 
-    }
   }
 }
 
