@@ -46,7 +46,11 @@ function loginViaMetamask(cb) {
       return null
     }
     store.wallet = 'metamask';
-    store.address = accounts[0];
+    if (Array.isArray(accounts)) {
+      store.address = accounts[0];
+    } else {
+      store.address = accounts
+    }
     await store.updateBalance(store.address)
 
     window.web3.version.getNetwork((err, netId) => {
@@ -62,7 +66,11 @@ function loginViaTomoWallet() {
   web3 = new Web3(window.web3.currentProvider);
   window.web3.eth.getAccounts(async function (err, accounts) {
     store.wallet = 'tomowallet';
-    store.address = accounts[0];
+    if (Array.isArray(accounts)) {
+      store.address = accounts[0];
+    } else {
+      store.address = accounts
+    }
     await store.updateBalance(store.address)
   });
 
@@ -77,17 +85,21 @@ function loginViaTomoWallet() {
 function loginViaOtherBrowser() {
   web3 = window.web3
   window.web3.eth.getAccounts(async function (err, accounts) {
-    store.wallet = 'tomowallet';
-    store.address = accounts[0];
+    store.wallet = 'other';
+    if (Array.isArray(accounts)) {
+      store.address = accounts[0];
+    } else {
+      store.address = accounts
+    }
     await store.updateBalance(store.address)
   });
 
-  window.web3.version.getNetwork((err, netId) => {
-    store.networkId = netId;
-    if (netId !== process.env.VUE_APP_NETWORK_ID) {
-      alert('Unknown network, change network to TomoChain, please');
-    }
-  });
+  // window.web3.version.getNetwork((err, netId) => {
+  //   store.networkId = netId;
+  //   if (netId !== process.env.VUE_APP_NETWORK_ID) {
+  //     alert('Unknown network, change network to TomoChain, please');
+  //   }
+  // });
 }
 
 export default {

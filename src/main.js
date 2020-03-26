@@ -88,6 +88,13 @@ Vue.prototype.walletLogin = function () {
           store.address = address;
           await store.updateBalance(address)
         });
+      } else {
+        contract.login({
+          other: true
+        }, async (err, address) => {
+          store.address = address;
+          await store.updateBalance(address)
+        });
       }
     } else {
       contract.login({
