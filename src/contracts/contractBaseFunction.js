@@ -61,6 +61,36 @@ function loginViaMetamask(cb) {
     });
   });
 }
+function loginViaPantograph(cb) {
+  if (typeof window.tomochain == 'undefined') {
+    return cb && cb('Pantograph is not installed')
+  }
+
+  web3 = new Web3(window.tomochain);
+
+  window.web3.eth.getAccounts(async function (err, accounts) {
+    if (err) {
+      return null
+    }
+    else if (accounts.length === 0) {
+      return null
+    }
+    store.wallet = 'pantograph';
+    if (Array.isArray(accounts)) {
+      store.address = accounts[0];
+    } else {
+      store.address = accounts
+    }
+    await store.updateBalance(store.address)
+
+    window.web3.version.getNetwork((err, netId) => {
+      store.networkId = netId;
+      if (netId !== process.env.VUE_APP_NETWORK_ID) {
+        alert('Unknown network, change network to TomoChain, please');
+      }
+    });
+  });
+}
 
 function loginViaTomoWallet() {
   web3 = new Web3(window.web3.currentProvider);
@@ -117,6 +147,8 @@ export default {
       loginViaMetamask();
     } else if (data.other) {
       loginViaOtherBrowser()
+    } else if (data.pantograph) {
+      loginViaPantograph()
     }
   },
   stake: async function (_candidate, _amount) {

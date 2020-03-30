@@ -22,21 +22,8 @@
       if (window.ethereum) {
         await window.ethereum.enable()
         await this.walletLogin()
-      } else {
-        await this.walletLogin()
-      }
-    },
-    async updated() {
-      if (window.ethereum) {
-        await window.ethereum.enable()
-        await this.walletLogin()
-      } else {
-        await this.walletLogin()
-      }
-    },
-    async mounted() {
-      if (window.ethereum) {
-        await window.ethereum.enable()
+      } else if (window.tomochain) {
+        await window.tomochain.enable()
         await this.walletLogin()
       } else {
         await this.walletLogin()

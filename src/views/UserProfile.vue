@@ -103,12 +103,12 @@
                                     <template
                                             slot="option"
                                             slot-scope="props">
-                                        <base-button
+                                        <b-button
                                                 v-if="!props.item.isWithdraw"
                                                 :class="currentBlock < props.item.blockWithdraw ? 'disabled' : ''"
                                                 type="primary"
                                                 size="sm"
-                                                @click="withdrawStake(props.item.candidate, props.item.blockWithdraw)">Withdraw</base-button>
+                                                @click="withdrawStake(props.item.candidate, props.item.blockWithdraw)">Withdraw</b-button>
                                     </template>
                                 </new-table>
                             </div>
@@ -191,7 +191,9 @@
       },
 
       withdrawStake(candidate, blockWithdraw) {
-        this.contract.withdrawStake(candidate, blockWithdraw)
+        if (this.currentBlock >= blockWithdraw) {
+          this.contract.withdrawStake(candidate, blockWithdraw)
+        }
       },
       async getCandidateStaker() {
         let request = await axios.get(this.apiServer + `/api/candidates/${this.candidateAddress}/staker/${this.store.address}`)

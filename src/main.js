@@ -104,7 +104,13 @@ Vue.prototype.walletLogin = function () {
         await store.updateBalance(address)
       });
     }
-
+  } else if (window.tomochain) {
+    contract.login({
+      pantograph: true
+    }, async (err, address) => {
+      store.address = address;
+      await store.updateBalance(address)
+    });
   }
 }
 
