@@ -63,6 +63,11 @@ const routes = [
                 path: '/result/:type/:candidate/:amount/:hash',
                 name: 'Result',
                 component: () => import(/* webpackChunkName: "demo" */ './views/Result.vue')
+            },
+            {
+                path: '/missTransaction',
+                name: 'MissTransaction',
+                component: () => import(/* webpackChunkName: "demo" */ './views/MissTransaction.vue')
             }
         ]
     }

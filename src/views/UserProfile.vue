@@ -54,6 +54,11 @@
                         <div class="card-header bg-transparent">
                             <h3 class="mb-0">
                                 <i class="fa fa-history text-warning" aria-hidden="true"></i> Withdraw stake history
+                                <div class="float-right">
+                                    <router-link :to="'/missTransaction'">
+                                        Your transaction is missing
+                                    </router-link>
+                                </div>
                             </h3>
                         </div>
                         <div class="card-body card-body-no-padding">
