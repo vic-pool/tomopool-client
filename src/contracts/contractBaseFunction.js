@@ -162,7 +162,7 @@ export default {
         candidate.methods.stake().send({
           value: wei.toString(),
           from: store.address,
-          gasLimit: web3.utils.toHex(3000000),
+          gasLimit: web3.utils.toHex(10000000),
           gasPrice: web3.utils.toHex(web3.utils.toWei('0.25', 'gwei'))
         }, async (error, txHash) => {
           if (error) {
@@ -191,7 +191,7 @@ export default {
     let wei = _amount.multipliedBy(10 ** 18).toString()
     await candidate.methods.unstake(wei).send({
       from: store.address,
-      gasLimit: web3.utils.toHex(3000000),
+      gasLimit: web3.utils.toHex(10000000),
       gasPrice: web3.utils.toHex(web3.utils.toWei('0.25', 'gwei'))
     }, async (error, txHash) => {
       if (error) {
@@ -224,7 +224,7 @@ export default {
     let candidate = await new web3.eth.Contract(CandidateABI, _candidate)
     candidate.methods.communityVote(true).send({
       from: store.address,
-      gasLimit: web3.utils.toHex(3000000),
+      gasLimit: web3.utils.toHex(10000000),
       gasPrice: web3.utils.toHex(web3.utils.toWei('0.25', 'gwei'))
     }, (error, txHash) => {
       if (error) {
@@ -240,7 +240,7 @@ export default {
     let candidate = new web3.eth.Contract(CandidateABI, _candidate)
     candidate.methods.communityVote(false).send({
       from: store.address,
-      gasLimit: web3.utils.toHex(3000000),
+      gasLimit: web3.utils.toHex(10000000),
       gasPrice: web3.utils.toHex(web3.utils.toWei('0.25', 'gwei'))
     }, async (error, txHash) => {
       if (error) {
@@ -277,7 +277,7 @@ export default {
     try {
       await candidate.methods.propose().send({
         from: store.address,
-        gasLimit: web3.utils.toHex(3000000),
+        gasLimit: web3.utils.toHex(10000000),
         gasPrice: web3.utils.toHex(web3.utils.toWei('0.25', 'gwei'))
       }, async (error, txHash) => {
         if (error) {
@@ -298,7 +298,7 @@ export default {
     let candidate = new web3.eth.Contract(CandidateABI, _candidate)
     candidate.methods.resign().send({
       from: store.address,
-      gasLimit: web3.utils.toHex(3000000),
+      gasLimit: web3.utils.toHex(10000000),
       gasPrice: web3.utils.toHex(web3.utils.toWei('0.25', 'gwei'))
     }, async (error, txHash) => {
       if (error) {
@@ -313,7 +313,7 @@ export default {
     let candidate = new web3.eth.Contract(CandidateABI, _candidate)
     candidate.methods.withdrawAllRewardsOfStaker(store.address).send({
       from: store.address,
-      gasLimit: web3.utils.toHex(3000000),
+      gasLimit: web3.utils.toHex(10000000),
       gasPrice: web3.utils.toHex(web3.utils.toWei('0.25', 'gwei'))
     }, async (error, txHash) => {
       if (error) {
@@ -345,7 +345,7 @@ export default {
     await new Promise((resolve, reject) => {
       candidate.methods.fillRewardsPerEpoch().send({
         from: store.address,
-        gasLimit: web3.utils.toHex(3000000),
+        gasLimit: web3.utils.toHex(10000000),
         gasPrice: web3.utils.toHex(web3.utils.toWei('0.25', 'gwei'))
       }, function (err) {
         if (err) {
@@ -361,7 +361,7 @@ export default {
     let candidate = new web3.eth.Contract(CandidateABI, _candidate)
     candidate.methods.withdrawStake(_blockWithdraw).send({
       from: store.address,
-      gasLimit: web3.utils.toHex(3000000),
+      gasLimit: web3.utils.toHex(10000000),
       gasPrice: web3.utils.toHex(web3.utils.toWei('0.25', 'gwei'))
     }, async (error, txHash) => {
       if (error) {
@@ -392,7 +392,7 @@ export default {
       let wei = _amount.multipliedBy(10 ** 18)
       candidate.methods.transferStake(_to, wei.toString()).send({
         from: store.address,
-        gasLimit: web3.utils.toHex(3000000),
+        gasLimit: web3.utils.toHex(10000000),
         gasPrice: web3.utils.toHex(web3.utils.toWei('0.25', 'gwei'))
       }, async (error, txHash) => {
         if (error) {
