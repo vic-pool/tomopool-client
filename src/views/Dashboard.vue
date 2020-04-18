@@ -298,7 +298,7 @@
         tomoscan: process.env.VUE_APP_TOMOSCAN,
         tomomaster: process.env.VUE_APP_TOMOMASTER,
         apiServer: process.env.VUE_APP_API,
-        maxCap: process.env.VUE_APP_MAX_CAPACITY
+        maxCap: 0
       }
     },
     methods: {
@@ -373,6 +373,7 @@
       async getCandidateDetail() {
         let request = await axios.get(this.apiServer + '/api/candidates/' + this.address)
         this.candidate = request.data
+        this.maxCap = this.candidate.maxCapacity
       },
       async getCandidateRewards() {
         let params = {
@@ -408,10 +409,6 @@
         this.stakerTotal = request.data.total
       }
     },
-    async mounted() {
-      await this.getCandidateStaker()
-      await this.currentStakerReward()
-    },
     async created() {
       await this.getStats()
       await this.getCandidateDetail()
@@ -421,10 +418,6 @@
       await this.getCandidateStakers()
       await this.getTransactions()
       await this.getCandidateStatus()
-    },
-    async updated() {
-      // await this.getCandidateStaker()
-      // await this.currentStakerReward()
     }
   };
 </script>

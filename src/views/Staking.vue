@@ -91,7 +91,7 @@
         contract: contract,
         tomomaster: process.env.VUE_APP_TOMOMASTER,
         apiServer: process.env.VUE_APP_API,
-        maxCap: process.env.VUE_APP_MAX_CAPACITY,
+        maxCap: 0,
         currentCap: 0,
         hasProblem: false
       }
@@ -101,6 +101,7 @@
         let request = await axios.get(this.apiServer + '/api/candidates/' + this.address)
         this.candidate = request.data
         this.currentCap = this.candidate.capacity
+        this.maxCap = this.candidate.maxCapacity
       },
       async checkProblem() {
         this.hasProblem = await this.contract.checkHasProblem(this.address)
@@ -113,7 +114,7 @@
       },
       async staking() {
         if (this.candidate) {
-          if (parseFloat(this.candidate.capacity) >= parseFloat(process.env.VUE_APP_MAX_CAPACITY)) {
+          if (parseFloat(this.candidate.capacity) >= parseFloat(this.maxCap)) {
             return alert('Stake Rejected! The pool has reached the maximum capacity. Please comeback when the pool stake is reduced!')
           } else {
             let newCap = parseFloat(this.currentCap) + parseFloat(this.amount)
