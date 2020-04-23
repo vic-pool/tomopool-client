@@ -56,7 +56,7 @@
                                 <i class="fa fa-history text-warning" aria-hidden="true"></i> Withdraw stake history
                                 <div class="float-right">
                                     <router-link :to="'/missTransaction'">
-                                        Your transaction is missing
+                                        Is your transaction missed?
                                     </router-link>
                                 </div>
                             </h3>
