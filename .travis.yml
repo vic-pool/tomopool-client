@@ -26,7 +26,8 @@ jobs:
 #        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/long.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
 #        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/summer.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
 #        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/bigpool.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'pm2 restart all' > /dev/null
+#        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'pm2 restart all' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Hello World"' > /dev/null
 #      after_success:
 #        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#tomopool-deploy\", \"username\": \"Travis CI\", \"attachments\":[{\"fallback\":\"Deployment succeeded\",\"pretext\":\"\",\"color\":\"good\",\"fields\":[{\"title\":\"TomoPool\",\"value\":\"Deployment succeeded.\",\"short\":true}]}], \"icon_emoji\": \":male-construction-worker:\"}" https://hooks.slack.com/services/T00000000/B00000000/$SLACK_TOKEN'
 #      after_failure:
@@ -37,5 +38,4 @@ stages:
     if: type != pull_request AND branch = master AND repo = tomo-pool/tomo-pool-client
 notifications:
   slack:
-    rooms:
-    - tomochain:$SLACK_TOKEN#tomopool-deploy
+    secure: cWl6MLtI+To/aPEyLYEtqdWdrE1k0Y0XNBqDJePmoJ1rlcJsXm2KEFvNfFjZ++AZ02VFVzlgq2XntHHW8Gck4fffNbHnhuxoudv3cSPFOJhKGrXpiR4nbjXtMfIdvSEM7OON3kT4V6TBO0wi5gLR62Glzz76cU9bziypOl9I9MhKpfGoMf2UbYgN8L6W4BemGiaKXnGGBygTMQ/e4Jzh+cIqlzz2Nk1TBAZzaoglK0Mt6XPtgb4dv40ASzlh7coqg7g59Xs0BpaLtNJ2WJRBNHtQLk7G30fTKS8jOMtg9/vEZ4o3MZE2ui4t/SI435ZhOtL15LlKshRpntAkgi+a8MS6rE+6WpOysjjjK2i8oC0WoJGSImGbrtJYFs7xzDs+17CLLOS5hVYDXShXc1623bG/JmYni/2xNpEotN/Js8MK168ssNsM2QR7N6czc3qIu0nPUnpIcRjhF1iw+mQ6/++pce+UW6dQM3TG59oYYak1gqGiv7SbL+guJ0JhyXCxQF2i+6UNHxe4QjkDvJKcvSm0qeW2ixY4/XseFEX0zPxF1lqqJaOMt1zdH+uoeo1Dj5nxtCFtO1TcIjYbDAE2kfbVRSEkF/h50SayQf+5ndREds/vQ6MPPpwjKtRkm0XAGl7chVuoFrLlTcyganzQ8OYY+lGLhQVZPygAHXy0bWM=
