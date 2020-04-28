@@ -1,0 +1,28 @@
+sudo: required
+language: node_js
+node_js: "10.6.0"
+
+script: skip
+
+jobs:
+  include:
+    - stage: Deploy
+      install: skip
+      before_script:
+        - openssl enc -aes-256-cbc -d -in travis.pem.enc -K $encrypted_key -iv $encrypted_iv -out travis.pem
+        - eval "$(ssh-agent -s)"
+        - chmod 600 ./travis.pem
+        - echo -e "Host $DEVNET_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        - ssh-add ./travis.pem
+      script:
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP '/root/update.sh' > /dev/null
+#      after_success:
+#        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#tomopool-deploy\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"Deployment succeeded\",\"pretext\":\"\",\"color\":\"good\",\"fields\":[{\"title\":\"TomoPool\",\"value\":\"Deployment succeeded.\",\"short\":true}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_DEPLOY_URL'
+#      after_failure:
+#        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#tomopool-deploy\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"Deployment failed\",\"pretext\":\"\",\"color\":\"danger\",\"fields\":[{\"title\":\"TomoPool\",\"value\":\"Deployment failed.\",\"short\":false}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_DEPLOY_URL'
+
+stages:
+  - name: Deploy
+    if: type != pull_request AND branch = master AND repo = tomo-pool/tomo-pool-client
+notifications:
+  slack: tomochain:$SLACK_TOKEN
