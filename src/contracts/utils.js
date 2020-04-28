@@ -9,7 +9,7 @@ export default {
       return Math.floor(num);
     }
     else {
-      return Math.floor(num * 100) / 100
+      return Math.floor(num * 10) / 10
     }
   }
 }

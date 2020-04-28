@@ -41,53 +41,7 @@
 
             <div class="row mt-5">
                 <div class="col">
-                    <div class="card shadow">
-                        <div class="card-header bg-transparent">
-                            <h3 class="mb-0">
-                                <i class="fa fa-trophy text-warning" aria-hidden="true"></i> Rewards
-                            </h3>
-                        </div>
-                        <div class="card-body card-body-no-padding">
-                            <div class="table-responsive">
-                                <new-table
-                                    :fields="rewardFields"
-                                    :items="rewardData"
-                                    class="tomo-table tomo-table--reward-candidate">
-                                    <template
-                                        slot="capacity"
-                                        slot-scope="props">
-                                            {{formatNumber(props.item.capacity)}}
-                                    </template>
-                                    <template
-                                        slot="totalCapacity"
-                                        slot-scope="props">
-                                            {{formatNumber(props.item.totalCapacity)}}
-                                    </template>
-                                    <template
-                                            slot="annualInterest"
-                                            slot-scope="props">
-                                        <div>
-                                            <span>{{(Math.ceil((props.item.reward * 48 * 30 * 12) / props.item.capacity * 100 * 100)) / 100 }}% </span>
-                                            <small>({{formatNumber((Math.ceil((props.item.reward * 48 * 30 * 12) * 100 )) / 100) }} TOMO)</small>
-                                        </div>
-
-                                    </template>
-                                    <template
-                                        slot="rewardTime"
-                                        slot-scope="props">
-                                        {{formatAge(props.item.rewardTime)}}
-                                    </template>
-                                </new-table>
-                            </div>
-                            <div class="mt-3">
-                                <base-pagination
-                                    v-if="rewardTotal > 0 && rewardTotal > limit"
-                                    v-model="rewardCurrentPage"
-                                    :page-count="Math.ceil(rewardTotal/limit)"
-                                    @change="getRewards"></base-pagination>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="chart"></div>
                 </div>
             </div>
 
@@ -154,6 +108,7 @@
   import BaseHeader from '@/components/BaseHeader'
   import NewTable from '@/components/NewTable'
   import BasePagination from '@/components/BasePagination'
+  import ApexCharts from 'apexcharts'
 
   Vue.use(VueClipboard)
   export default {
@@ -164,18 +119,6 @@
         candidate: process.env.VUE_APP_CANDIDATE_ADDRESS,
         candidatesStaker: {},
         limit: 10,
-
-        rewardData: [],
-        rewardFields: {
-          epoch: { label: 'Epoch' },
-          reward: { label: 'Reward' },
-          capacity: { label: 'Capacity' },
-          totalCapacity: { label: 'Total Capacity' },
-          annualInterest: { label: 'Annual Interest' },
-          rewardTime: { label: 'Age' },
-        },
-        rewardTotal: 0,
-        rewardCurrentPage: 1,
 
         transactionsData: [],
         transactionFields: {
@@ -204,15 +147,58 @@
       },
       async getRewards() {
         let params = {
-          page: this.rewardCurrentPage,
-          limit: this.limit,
+          page: 1,
+          limit: 50,
           candidate: this.candidate
         }
         const query = this.serializeQuery(params)
 
         let request = await axios.get(this.apiServer + '/api/stakers/' + this.address + '/rewards?' + query)
-        this.rewardData = request.data.rewards
-        this.rewardTotal = request.data.total
+
+          let labels = []
+          let rData = []
+
+          for (let i = 0; i < request.data.rewards.length; i++) {
+              let item = request.data.rewards[i]
+              rData.push(Math.ceil(item.reward * 10000)/10000)
+              labels.push(item.epoch)
+          }
+          var options = {
+              series: [{
+                  name: 'Rewards',
+                  data: rData
+              }],
+              chart: {
+                  height: 350,
+                  type: 'line',
+                  zoom: {
+                      enabled: false
+                  }
+              },
+              dataLabels: {
+                  enabled: false
+              },
+              stroke: {
+                  curve: 'straight'
+              },
+              title: {
+                  text: 'Rewards report (TOMO)',
+                  align: 'left'
+              },
+              grid: {
+                  row: {
+                      colors: ['#f3f3f3', 'transparent'],
+                      opacity: 0.5
+                  },
+              },
+              xaxis: {
+                  categories: labels,
+                  labels: {show: false}
+              }
+          }
+
+          var chart = new ApexCharts(document.querySelector("#chart"), options);
+          chart.render();
       },
       async getTransactions() {
         let params = {
@@ -227,7 +213,7 @@
         this.transactionTotal = request.data.total
       }
     },
-    async mounted() {
+    async created() {
       await this.getCandidateStaker()
       await this.getRewards()
       await this.getTransactions()
