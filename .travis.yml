@@ -15,22 +15,22 @@ jobs:
         - echo -e "Host $SERVER_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         - ssh-add ./travis.pem
       script:
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update TomoPool \n" && cd /root/staking.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update Coin98Pool \n" && cd /root/coin98.tomopool.com && git pull origin master && cp public/coin98_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update SwimmingPool \n" && cd /root/swimming.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update WalkingPool \n" && cd /root/walking.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update TomoStakePool \n" && cd /root/tomostake.tomopool.com && git pull origin master && cp public/tomostake_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update InfinitePool \n" && cd /root/infinite.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update TeamPool \n" && cd /root/team.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update DeepPool \n" && cd /root/deep.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update LongPool \n" && cd /root/long.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update SummerPool \n" && cd /root/summer.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Update BigPool \n" && cd /root/bigppol.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
-        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'echo "Restart Website \n" && pm2 restart all' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/staking.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/coin98.tomopool.com && git pull origin master && cp public/coin98_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/swimming.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/walking.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/tomostake.tomopool.com && git pull origin master && cp public/tomostake_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/infinite.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/team.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/deep.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/long.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/summer.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'cd /root/bigppol.tomopool.com && git pull origin master && cp public/default_favicon.ico public/favicon.ico && npm run build' > /dev/null
+        - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP 'pm2 restart all' > /dev/null
       after_success:
-        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#tomopool-deploy\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"Deployment succeeded\",\"pretext\":\"\",\"color\":\"good\",\"fields\":[{\"title\":\"TomoPool\",\"value\":\"Deployment succeeded.\",\"short\":true}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_TOKEN'
+        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#tomopool-deploy\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"Deployment succeeded\",\"pretext\":\"\",\"color\":\"good\",\"fields\":[{\"title\":\"TomoPool\",\"value\":\"Deployment succeeded.\",\"short\":true}]}], \"icon_emoji\": \":male-construction-worker:\"}" https://hooks.slack.com/services/T00000000/B00000000/$SLACK_TOKEN'
       after_failure:
-        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#tomopool-deploy\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"Deployment failed\",\"pretext\":\"\",\"color\":\"danger\",\"fields\":[{\"title\":\"TomoPool\",\"value\":\"Deployment failed.\",\"short\":false}]}], \"icon_emoji\": \":male-construction-worker:\"}" $SLACK_TOKEN'
+        -  'curl -X POST --data-urlencode "payload={\"channel\": \"#tomopool-deploy\", \"username\": \"Travis\", \"attachments\":[{\"fallback\":\"Deployment failed\",\"pretext\":\"\",\"color\":\"danger\",\"fields\":[{\"title\":\"TomoPool\",\"value\":\"Deployment failed.\",\"short\":false}]}], \"icon_emoji\": \":male-construction-worker:\"}" https://hooks.slack.com/services/T00000000/B00000000/$SLACK_TOKEN'
 
 stages:
   - name: Deploy
