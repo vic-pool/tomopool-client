@@ -18,7 +18,7 @@
                         </div>
                         <div class="form-group">
                             <i class="fas fa-id-card text-primary"></i> Candidate:
-                            <a target="_blank" :href="tomomaster + '/candidate/' + candidate.coinbase">
+                            <a :href="tomomaster + '/candidate/' + candidate.coinbase">
                                 {{candidate.hash}}
                             </a>
                         </div>

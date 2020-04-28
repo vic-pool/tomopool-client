@@ -57,12 +57,12 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div>Candidate:
-                                        <a :href="tomoscan + '/address/' + candidate.hash" target="_blank">
+                                        <a :href="tomoscan + '/address/' + candidate.hash">
                                             {{candidate.hash}}
                                         </a>
                                     </div>
                                     <div>Coinbase:
-                                        <a :href="tomomaster + '/candidate/' + candidate.coinbase" target="_blank">
+                                        <a :href="tomomaster + '/candidate/' + candidate.coinbase">
                                             {{candidate.coinbase}}
                                         </a>
                                      </div>
@@ -182,7 +182,7 @@
                                                 slot="hash"
                                                 slot-scope="props">
                                             <div class="account-address">
-                                                <a :href="tomoscan + '/tx/' + props.item.hash" target="_blank">
+                                                <a :href="tomoscan + '/tx/' + props.item.hash">
                                                     {{props.item.hash}}
                                                 </a>
                                             </div>

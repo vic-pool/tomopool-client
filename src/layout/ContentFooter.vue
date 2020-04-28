@@ -1,15 +1,15 @@
 <template>
   <div class="footer text-center mt-3">
-    <a :href="telegram" class="icon ml-3" target="_blank">
+    <a :href="telegram" class="icon ml-3">
       <img src="@/assets/logo/telegram-logo.svg" alt="github" height="35px">
     </a>
-    <a :href="twitter" class="icon ml-3" target="_blank">
+    <a :href="twitter" class="icon ml-3">
       <img src="@/assets/logo/twitter-logo.svg" alt="github" height="35px">
     </a>
-    <a href="https://github.com/tomo-pool/tomo-pool" class="icon ml-3" target="_blank">
+    <a href="https://github.com/tomo-pool/tomo-pool" class="icon ml-3">
       <img src="@/assets/logo/github-120px.png" alt="github" height="35px">
     </a>
-    <a :href="'https://scan.tomochain.com/address/' + candidate" class="icon ml-3" target="_blank">
+    <a :href="'https://scan.tomochain.com/address/' + candidate" class="icon ml-3">
       <img src="@/assets/logo/tomo-scan-logo.svg" alt="github" height="35px">
     </a>
     <div class="mt-3">
