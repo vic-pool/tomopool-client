@@ -12,7 +12,7 @@ jobs:
         - openssl enc -aes-256-cbc -d -in travis.pem.enc -K $encrypted_key -iv $encrypted_iv -out travis.pem
         - eval "$(ssh-agent -s)"
         - chmod 600 ./travis.pem
-        - echo -e "Host $DEVNET_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        - echo -e "Host $SERVER_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         - ssh-add ./travis.pem
       script:
         - ssh -i ./travis.pem -l $SERVER_USER $SERVER_IP '/root/update.sh' > /dev/null
