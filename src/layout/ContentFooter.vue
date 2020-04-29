@@ -13,7 +13,7 @@
       <img src="@/assets/logo/tomo-scan-logo.svg" alt="github" height="35px">
     </a>
     <div class="mt-3">
-      © {{year}} TomoPool Team
+      TomoPool Team © {{year}}
     </div>
   </div>
 </template>
