@@ -21,6 +21,11 @@
                                 You have withdrawn your rewards successfully
                             </div>
                             <div
+                                v-else-if="type === 'withdrawStake'"
+                                class="form-group">
+                                You have withdrawn your stake successfully
+                            </div>
+                            <div
                                 v-else
                                 class="form-group">
                                 You have {{type}} {{formatNumber(amount)}} TOMO successfully
