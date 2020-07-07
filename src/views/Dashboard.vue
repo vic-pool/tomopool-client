@@ -101,6 +101,65 @@
             </div>
         </base-header>
 
+        <base-header
+            v-if="withdrawData.length > 0"
+            type="gradient-success" class="pt-2 pb-2 ">
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header bg-transparent">
+                            <div class="col">
+                                <h5 class="mb-0">
+                                    <i class="fa fa-user text-warning" aria-hidden="true"></i> Withdraw unstake
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <new-table
+                                            :fields="withdrawFields"
+                                            :items="withdrawData"
+                                            class="tomo-table">
+
+                                        <template
+                                                slot="unstakeTx"
+                                                slot-scope="props">
+                                            <a :href="tomoscan + '/txs/' + props.item.unstakeTx" class="account-address">
+                                                {{hiddenString(props.item.unstakeTx, 10)}}
+                                            </a>
+                                        </template>
+                                        <template
+                                                slot="capacity"
+                                                slot-scope="props">
+                                            {{formatNumber(props.item.capacity)}}
+                                        </template>
+                                        <template
+                                                slot="estimateTime"
+                                                slot-scope="props">
+                                            <vue-countdown :time="props.item.blockWithdraw - currentBlock > 0 ? (props.item.blockWithdraw - currentBlock) * 2 * 1000 : 0">
+                                                <template slot-scope="time">{{ time.days > 0 ? time.days + ' days ' : '' }}{{ time.hours }}:{{ time.minutes }}:{{ time.seconds }}</template>
+                                            </vue-countdown>
+                                        </template>
+                                        <template
+                                                slot="option"
+                                                slot-scope="props">
+                                            <b-button
+                                                    v-if="!props.item.isWithdraw"
+                                                    :class="currentBlock < props.item.blockWithdraw ? 'disabled' : ''"
+                                                    variant="primary"
+                                                    size="sm"
+                                                    @click="withdrawStake(props.item.candidate, props.item.blockWithdraw)">Withdraw</b-button>
+                                        </template>
+                                    </new-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </base-header>
+
         <div class="container-fluid mt--7">
             <div class="row">
                 <div class="col">
@@ -238,13 +297,15 @@
   import NewTable from '@/components/NewTable'
   import BaseHeader from '@/components/BaseHeader'
   import BasePagination from '@/components/BasePagination'
+  import VueCountdown from '@chenfengyuan/vue-countdown'
 
   Vue.use(VueClipboard)
   export default {
     components: {
-        NewTable,
-        BaseHeader,
-        BasePagination,
+      VueCountdown,
+      NewTable,
+      BaseHeader,
+      BasePagination,
     },
     data() {
       return {
@@ -298,7 +359,16 @@
         tomoscan: process.env.VUE_APP_TOMOSCAN,
         tomomaster: process.env.VUE_APP_TOMOMASTER,
         apiServer: process.env.VUE_APP_API,
-        maxCap: 0
+        maxCap: 0,
+
+        currentBlock: 0,
+        withdrawData: [],
+        withdrawFields: {
+          unstakeTx: { label: 'Unstake Tx' },
+          capacity: { label: 'Amount' },
+          estimateTime: { label: 'Estimate Time' },
+          option: { label: '' },
+        },
       }
     },
     methods: {
@@ -356,12 +426,6 @@
       async checkIsVoted() {
         this.resignStatus = await this.contract.checkIsVoted(this.store.address)
       },
-      async reCalculate() {
-        await this.contract.fillRewardsPerEpoch(this.address)
-        let sleep = (time) => new Promise((resolve) => setTimeout(resolve, time))
-        await sleep(2000)
-        this.stakerReward = await this.contract.computeReward(this.address)
-      },
       async getCandidateStatus() {
         if (this.candidate.statusNumber === 100) {
           let isWithdraw2days = await this.contract.isAlreadyWithdrawAfterResign(this.address, this.store.address, true)
@@ -407,12 +471,30 @@
         let request = await axios.get(this.apiServer + `/api/candidates/${this.address}/stakers?${query}`)
         this.stakersData = request.data.stakers
         this.stakerTotal = request.data.total
-      }
+      },
+      async getListWithdraw() {
+        let params = {
+          page: 1,
+          limit: 100,
+          isWaiting: true
+        }
+        const query = this.serializeQuery(params)
+        let request = await axios.get(this.apiServer + '/api/stakers/' + this.store.address + '/candidate/' + this.candidate.hash + '/withdraw?' + query)
+        this.withdrawData = request.data.listWithdraw
+        this.currentBlock = request.data.currentBlock
+      },
+
+      withdrawStake(candidate, blockWithdraw) {
+        if (this.currentBlock >= blockWithdraw) {
+          this.contract.withdrawStake(candidate, blockWithdraw)
+        }
+      },
     },
     async created() {
       await this.getStats()
       await this.getCandidateDetail()
       await this.getCandidateStaker()
+      await this.getListWithdraw()
       await this.currentStakerReward()
       await this.getCandidateRewards()
       await this.getCandidateStakers()
