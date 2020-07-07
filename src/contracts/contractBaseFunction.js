@@ -176,7 +176,7 @@ export default {
               }
             }, 500);
 
-            window.location = `#/result/staked/${_candidate}/${_amount.toString()}/${txHash}`
+            window.location = `/result/staked/${_candidate}/${_amount.toString()}/${txHash}`
           }
         })
       } catch (e) {
@@ -204,7 +204,7 @@ export default {
             clearInterval(sInterval);
           }
         }, 500);
-        window.location = `#/result/unstaked/${_candidate}/${_amount.toString()}/${txHash}`
+        window.location = `/result/unstaked/${_candidate}/${_amount.toString()}/${txHash}`
       }
     })
 
@@ -231,7 +231,7 @@ export default {
         alert('There are something errors! Please try again later.')
       } else {
         store.updateBalance()
-        window.location = `#/result/voteResign/${_candidate}/0/${txHash}`
+        window.location = `/result/voteResign/${_candidate}/0/${txHash}`
       }
     })
   },
@@ -246,7 +246,7 @@ export default {
       if (error) {
         alert('There are something errors! Please try again')
       } else {
-        window.location = `#/result/unVoteResign/${_candidate}/0/${txHash}`
+        window.location = `/result/unVoteResign/${_candidate}/0/${txHash}`
       }
     })
   },
@@ -283,7 +283,7 @@ export default {
         if (error) {
           alert('There are something errors! Please try again')
         } else {
-          window.location = `#/result/proposed/${_candidate}/0/${txHash}`
+          window.location = `/result/proposed/${_candidate}/0/${txHash}`
         }
       })
 
@@ -304,7 +304,7 @@ export default {
       if (error) {
         alert('There are something errors! Please try again')
       } else {
-        window.location = `#/result/resign/${_candidate}/0/${txHash}`
+        window.location = `/result/resign/${_candidate}/0/${txHash}`
       }
     })
   },
@@ -319,7 +319,7 @@ export default {
       if (error) {
         alert('There are something errors! Please try again')
       } else {
-        window.location = `#/result/withdrawRewards/${_candidate}/0/${txHash}`
+        window.location = `/result/withdrawRewards/${_candidate}/0/${txHash}`
       }
     })
   },
@@ -367,7 +367,7 @@ export default {
       if (error) {
         alert('There are something errors! Please try again')
       } else {
-        window.location = `#/result/withdrawStake/${_candidate}/0/${txHash}`
+        window.location = `/result/withdrawStake/${_candidate}/0/${txHash}`
       }
     })
   },
@@ -406,7 +406,7 @@ export default {
             }
           }, 500);
 
-          window.location = `#/result/staked/${_candidate}/${_amount.toString()}/${txHash}`
+          window.location = `/result/staked/${_candidate}/${_amount.toString()}/${txHash}`
         }
       })
     } catch (e) {
