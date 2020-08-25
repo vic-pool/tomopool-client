@@ -478,10 +478,12 @@
           limit: 100,
           isWaiting: true
         }
-        const query = this.serializeQuery(params)
-        let request = await axios.get(this.apiServer + '/api/stakers/' + this.store.address + '/candidate/' + this.candidate.hash + '/withdraw?' + query)
-        this.withdrawData = request.data.listWithdraw
-        this.currentBlock = request.data.currentBlock
+        if (this.store.address) {
+          const query = this.serializeQuery(params)
+          let request = await axios.get(this.apiServer + '/api/stakers/' + this.store.address + '/candidate/' + this.candidate.hash + '/withdraw?' + query)
+          this.withdrawData = request.data.listWithdraw
+          this.currentBlock = request.data.currentBlock
+        }
       },
 
       withdrawStake(candidate, blockWithdraw) {
