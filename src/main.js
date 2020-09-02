@@ -6,6 +6,7 @@ import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import contract from './contracts/contractBaseFunction'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import VueAnalytics from 'vue-analytics'
 
 import '@/assets/scss/app.scss'
 
@@ -17,6 +18,11 @@ Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
+
+Vue.use(VueAnalytics, {
+  id: process.env.VUE_APP_GA_ID,
+  router
+})
 
 Vue.prototype.serializeQuery = function (params, prefix) {
   const query = Object.keys(params).map((key) => {
