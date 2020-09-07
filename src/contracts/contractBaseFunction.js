@@ -236,6 +236,13 @@ export default {
     })
   },
 
+  voteResult: async function (_candidate) {
+    let candidate = await new web3.eth.Contract(CandidateABI, _candidate)
+    let result = await candidate.methods.governance().call()
+    let totalVote = new BigNumber(result.supportCap)
+    return totalVote.div(10**18).toNumber()
+  },
+
   unVoteResign: function (_candidate) {
     let candidate = new web3.eth.Contract(CandidateABI, _candidate)
     candidate.methods.communityVote(false).send({

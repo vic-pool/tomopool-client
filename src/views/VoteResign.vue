@@ -32,8 +32,14 @@
                                 Your Staking: {{formatNumber(candidateStaker.capacity || 0)}} TOMO
                             </div>
 
+                            <div class="form-group">
+                                <i class="fas fa-balance-scale text-primary"></i>
+                                Total vote resign: {{formatNumber(totalVote)}} TOMO
+                            </div>
+
+
                             <div class="text-center">
-                                <base-button type="danger" class="my-2" @click="vote">Vote Resign</base-button>
+                                <b-button variant="danger" class="my-2" @click="vote">Vote Resign</b-button>
                             </div>
                         </form>
                     </div>
@@ -64,7 +70,8 @@
         candidateStaker: {},
         store: store,
         contract: contract,
-        apiServer: process.env.VUE_APP_API
+        apiServer: process.env.VUE_APP_API,
+        totalVote: 0
       }
     },
     methods: {
@@ -88,6 +95,7 @@
     async mounted() {
       await this.getCandidateDetail()
       await this.getCandidateStaker()
+      this.totalVote = await this.contract.voteResult(this.address)
     }
   };
 </script>
