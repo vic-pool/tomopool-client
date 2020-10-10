@@ -84,6 +84,7 @@
     data() {
       return {
         address: process.env.VUE_APP_CANDIDATE_ADDRESS,
+        candidateType: process.env.VUE_APP_CANDIDATE_TYPE,
         amount: '',
         candidate: {},
         estReward: 0,
@@ -104,8 +105,9 @@
         this.maxCap = this.candidate.maxCapacity
       },
       async checkProblem() {
-        this.hasProblem = await this.contract.checkHasProblem(this.address)
-
+        if (parseInt(this.candidateType) < 3) {
+          this.hasProblem = await this.contract.checkHasProblem(this.address)
+        }
       },
       estimateReward() {
         let latestReward = this.candidate.reward
