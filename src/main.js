@@ -69,7 +69,15 @@ Vue.prototype.formatTomo = function (num) {
   return Math.floor(num * 1000) / 1000
 }
 Vue.prototype.walletLogin = function () {
-  if (window.web3) {
+  if (window.ethereum) {
+    contract.login({
+      newMetamask: true
+    }, async (err, address) => {
+      store.address = address;
+      await store.updateBalance(address)
+    });
+  } else if (window.web3) {
+    console.log('cccccccc', window.web3)
     if (window.web3.currentProvider) {
       if (window.web3.currentProvider.isTomoWallet) {
         contract.login({
