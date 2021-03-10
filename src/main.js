@@ -76,8 +76,9 @@ Vue.prototype.walletLogin = function () {
       store.address = address;
       await store.updateBalance(address)
     });
-  } else if (window.web3) {
-    console.log('cccccccc', window.web3)
+  }
+  if (window.web3 && store.address === '') {
+    console.log(22222, window.web3.currentProvider)
     if (window.web3.currentProvider) {
       if (window.web3.currentProvider.isTomoWallet) {
         contract.login({
@@ -118,7 +119,8 @@ Vue.prototype.walletLogin = function () {
         await store.updateBalance(address)
       });
     }
-  } else if (window.tomochain) {
+  }
+  if (window.tomochain && store.address === '') {
     contract.login({
       pantograph: true
     }, async (err, address) => {
